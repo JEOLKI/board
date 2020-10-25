@@ -13,5 +13,15 @@
 		INSERT INTO board_gubun
 		VALUES( bgubun_seq.nextval, #{gubun_nm}, #{gubun_yn})
 	</insert>
+	
+	<update id="updateBoardGubun" parameterType="BoardGubunVo">
+		UPDATE board_gubun SET gubun_nm = #{gubun_nm}, gubun_yn = #{gubun_yn}
+		WHERE gubun_sq = #{gubun_sq}
+	</update>
+	
+	<delete id="deleteBoardGubun" parameterType="String">
+		DELETE board_gubun
+		WHERE gubun_nm = #{gubun_nm}
+	</delete>
 
 </mapper>

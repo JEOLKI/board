@@ -14,6 +14,12 @@ public class BoardGubunVo {
 		this.gubun_yn = gubun_yn;
 	}
 
+	public BoardGubunVo(int gubun_sq, String gubun_nm, String gubun_yn) {
+		this.gubun_sq = gubun_sq;
+		this.gubun_nm = gubun_nm;
+		this.gubun_yn = gubun_yn;
+	}
+
 	public int getGubun_sq() {
 		return gubun_sq;
 	}

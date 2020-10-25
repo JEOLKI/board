@@ -73,11 +73,12 @@
 					
 				</form>
 				
-				<div>
-					<c:forEach items="${boardGubunList }" var="boardGubun">
+				<c:forEach items="${boardGubunList }" var="boardGubun">
+					<form action="${cp }/boardGubunUpdate" method="POST">
 						<label for="gubun_nm">게시판 이름</label>
-						<input type="text" value="${boardGubun.gubun_nm }" readonly="readonly">
-						<select id="${boardGubun.gubun_sq }">
+						<input type="text" name="gubun_nm" value="${boardGubun.gubun_nm }">
+						<input HIDDEN type="text" name="gubun_sq" value="${boardGubun.gubun_sq }">
+						<select name="gubun_yn">
 							<c:choose>
 								<c:when test="${boardGubun.gubun_yn == 'y' }">
 									<option selected="selected">사용</option>
@@ -89,9 +90,10 @@
 								</c:when>
 							</c:choose>
 						</select>
-						<button id="updateBtn" data-gubun_sq="${boardGubun.gubun_sq }" type="button">수정</button> <br>
-					</c:forEach>
-				</div>
+						<button id="updateBtn" data-gubun_sq="${boardGubun.gubun_sq }" type="summit">수정</button> <br>
+					</form>
+				</c:forEach>
+				
 			</div>
 			
 		</div>

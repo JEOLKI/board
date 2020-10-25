@@ -9,4 +9,8 @@ public interface BoardGubunDaoI {
 	List<BoardGubunVo> getBoardGubunList();
 	
 	int insertBoardGubun(BoardGubunVo boardGubunVo);
+	
+	int updateBoardGubun(BoardGubunVo boardGubunVo);
+	
+	int deleteBoardGubun(String gubun_nm);
 }

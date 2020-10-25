@@ -25,4 +25,14 @@ public class BoardGubunService implements BoardGubunServiceI{
 		return boardGubunDao.insertBoardGubun(boardGubunVo);
 	}
 
+	@Override
+	public int updateBoardGubun(BoardGubunVo boardGubunVo) {
+		return boardGubunDao.updateBoardGubun(boardGubunVo);
+	}
+
+	@Override
+	public int deleteBoardGubun(String gubun_nm) {
+		return boardGubunDao.deleteBoardGubun(gubun_nm);
+	}
+
 }

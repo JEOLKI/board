@@ -27,21 +27,47 @@ public class BoardGubunDao implements BoardGubunDaoI {
 		int insertCnt = 0;
 		try {
 			insertCnt = sqlSession.insert("board.insertBoardGubun", boardGubunVo);
-		} catch (Exception e) {
-			
-		}
+		} catch (Exception e) { }
 
-		if (insertCnt == 1) {
-			sqlSession.commit();
-		} else {
-			sqlSession.rollback();
-		}
+		if (insertCnt == 1) sqlSession.commit();
+		else sqlSession.rollback();
 
 		sqlSession.close();
 
 		return insertCnt;
 	}
 	
+	@Override
+	public int updateBoardGubun(BoardGubunVo boardGubunVo) {
+		SqlSession sqlSession = MybatisUtil.getSqlSession();
+		int insertCnt = 0;
+		try {
+			insertCnt = sqlSession.update("board.updateBoardGubun", boardGubunVo);
+		} catch (Exception e) { }
+		
+		if (insertCnt == 1) sqlSession.commit();
+		else sqlSession.rollback();
+		
+		sqlSession.close();
+		
+		return insertCnt;
+	}
+
+	@Override
+	public int deleteBoardGubun(String gubun_nm) {
+		SqlSession sqlSession = MybatisUtil.getSqlSession();
+		int deleteCnt = 0;
+		try {
+			deleteCnt = sqlSession.delete("board.deleteBoardGubun", gubun_nm);
+		} catch (Exception e) { }
+		
+		if (deleteCnt == 1) sqlSession.commit();
+		else sqlSession.rollback();
+		
+		sqlSession.close();
+		
+		return deleteCnt;
+	}
 	
 
 }
