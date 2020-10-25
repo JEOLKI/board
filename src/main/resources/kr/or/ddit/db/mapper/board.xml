@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+	<select id="getBoardGubunList" parameterType="String" resultType="BoardGubunVo">
+		SELECT *
+		FROM board_gubun
+	</select>
+
+	<insert id="insertBoardGubun" parameterType="BoardGubunVo">
+		INSERT INTO board_gubun
+		VALUES( bgubun_seq.nextval, #{gubun_nm}, #{gubun_yn})
+	</insert>
+
+</mapper>
