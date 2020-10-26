@@ -19,7 +19,7 @@
 		WHERE gubun_sq = #{gubun_sq}
 	</update>
 	
-	<delete id="deleteBoardGubun" parameterType="String">
+	<delete id="deleteBoardGubunForTest" parameterType="String">
 		DELETE board_gubun
 		WHERE gubun_nm = #{gubun_nm}
 	</delete>
@@ -82,6 +82,16 @@
 		UPDATE board SET board_yn = 'n'
 		WHERE board_sq = #{board_sq}
 	</update>
+	
+	<update id="updateBoard" parameterType="BoardVo">
+		UPDATE board SET board_yn = #{board_yn}
+		WHERE board_sq = #{board_sq}
+	</update>
+	
+	<delete id="deleteBoardForTest" parameterType="board_title">
+		DELETE board
+		WHERE board_title = #{board_title}
+	</delete>
 	
 
 </mapper>

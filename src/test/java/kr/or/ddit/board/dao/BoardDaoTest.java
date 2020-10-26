@@ -37,6 +37,10 @@ public class BoardDaoTest {
 	@After
 	public void reset() {
 		sqlSession.close();
+		String board_title = "test";
+		boardDao.deleteBoardForTest(board_title);
+		boardVo.setBoard_yn("y");
+		boardDao.updateBoard(boardVo);
 	}
 	
 	@Test
@@ -136,5 +140,6 @@ public class BoardDaoTest {
 		assertEquals(1, deleteCnt);
 		
 	}
+	
 	
 }

@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import kr.or.ddit.board.service.BoardService;
+import kr.or.ddit.board.service.BoardServiceI;
 import kr.or.ddit.fileUpload.FileUploadUtil;
 
 
@@ -19,8 +21,20 @@ public class BoardRegistServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private static final Logger logger = LoggerFactory.getLogger(BoardRegistServlet.class);
-       
+    
+	private BoardServiceI boardService;
+	String gubun_sq;
+	String board_sq;
+	
+	@Override
+	public void init() throws ServletException {
+		boardService = new BoardService();
+	}
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		gubun_sq = request.getParameter("gubun_sq");
+		board_sq = request.getParameter("board_sq");
 		
 		request.getRequestDispatcher("/board/boardRegister.jsp").forward(request, response);
 		

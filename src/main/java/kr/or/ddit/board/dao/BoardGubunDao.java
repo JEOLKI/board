@@ -58,7 +58,7 @@ public class BoardGubunDao implements BoardGubunDaoI {
 		SqlSession sqlSession = MybatisUtil.getSqlSession();
 		int deleteCnt = 0;
 		try {
-			deleteCnt = sqlSession.delete("board.deleteBoardGubun", gubun_nm);
+			deleteCnt = sqlSession.delete("board.deleteBoardGubunForTest", gubun_nm);
 		} catch (Exception e) { }
 		
 		if (deleteCnt == 1) sqlSession.commit();

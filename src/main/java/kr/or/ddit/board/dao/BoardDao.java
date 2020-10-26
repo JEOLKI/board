@@ -62,4 +62,36 @@ public class BoardDao implements BoardDaoI {
 		return deleteCnt;
 	}
 
+	@Override
+	public int updateBoard(BoardVo board) {
+		SqlSession sqlSession = MybatisUtil.getSqlSession();
+		int updateCnt = 0;
+		try {
+			updateCnt = sqlSession.update("board.updateBoard", board);
+		} catch (Exception e) { }
+		
+		if (updateCnt == 1) sqlSession.commit();
+		else sqlSession.rollback();
+		
+		sqlSession.close();
+		
+		return updateCnt;
+	}
+
+	@Override
+	public int deleteBoardForTest(String board_title) {
+		SqlSession sqlSession = MybatisUtil.getSqlSession();
+		int deleteCnt = 0;
+		try {
+			deleteCnt = sqlSession.delete("board.deleteBoardForTest", board_title);
+		} catch (Exception e) { }
+		
+		if (deleteCnt == 1) sqlSession.commit();
+		else sqlSession.rollback();
+		
+		sqlSession.close();
+		
+		return deleteCnt;
+	}
+
 }

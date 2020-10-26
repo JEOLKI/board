@@ -18,6 +18,18 @@ public class BoardVo {
 	public BoardVo() {
 
 	}
+	
+
+	public BoardVo(String board_title, String board_content, String userid, int board_p_sq, int gubun_sq, int group_no) {
+		this.board_title = board_title;
+		this.board_content = board_content;
+		this.userid = userid;
+		this.board_p_sq = board_p_sq;
+		this.gubun_sq = gubun_sq;
+		this.group_no = group_no;
+	}
+
+
 
 	public int getRn() {
 		return rn;

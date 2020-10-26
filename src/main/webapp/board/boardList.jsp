@@ -97,7 +97,7 @@
 						</table>
 					</div>
 
-					<a class="btn btn-default pull-right" href="${cp }/boardRegist">새글 등록</a>
+					<a class="btn btn-default pull-right" href="${cp }/boardRegist?gubun_sq=${param.gubun_sq }">새글 등록</a>
 					
 					<div class="text-center">
 						<ul class="pagination">

@@ -50,6 +50,10 @@
 			document.location="/boardDelete?board_sq=${boardVo.board_sq }&gubun_sq=${boardVo.gubun_sq}&gubun_nm=${param.gubun_nm}";
 		});
 
+		$("#boardChildBtn").on('click', function(){
+			document.location="/boardRegist?gubun_sq=${boardVo.gubun_sq }&board_sq=${boardVo.board_sq }&group_no=${boardVo.group_no }";
+		})
+
 
 		$('#reply_content').on('keyup', function(){
 			console.log("ss")
@@ -144,9 +148,9 @@
 					<c:if test="${boardVo.userid == S_MEMBER.userid }">
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
-								<button id="updateBtn" type="button" class="btn btn-default" data-userid="${memberVo.userid }">수정</button>
+								<button id="updateBtn" type="button" class="btn btn-default" data-userid="${boardVo.board_sq }">수정</button>
 								<button id="boardDelBtn" type="button" class="btn btn-default" data-board_sq="${boardVo.board_sq }">삭제</button>
-								<button id="updateBtn" type="button" class="btn btn-default" data-userid="${memberVo.userid }">답글</button>
+								<button id="boardChildBtn" type="button" class="btn btn-default" data-board_sq="${boardVo.board_sq }">답글</button>
 							</div>
 						</div>
 					</c:if>

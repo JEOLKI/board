@@ -25,4 +25,8 @@ public interface BoardDaoI {
 	List<ReplyVo> getReplyList(SqlSession sqlSession, int board_sq);
 	
 	int deleteBoard(int board_sq);
+	
+	int updateBoard(BoardVo board);
+	
+	int deleteBoardForTest(String board_title);
 }
