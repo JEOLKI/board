@@ -23,5 +23,65 @@
 		DELETE board_gubun
 		WHERE gubun_nm = #{gubun_nm}
 	</delete>
+	
+	<select id="getBoardList" parameterType="int" resultType="BoardVo">
+		SELECT *
+		FROM board
+		WHERE gubun_sq = #{gubun_sq}
+	</select>
+	
+	<select id="getBoardPageList" resultType="BoardVo" parameterType="PageVo">
+		SELECT *
+		FROM (SELECT rownum rn, a.*
+			    FROM(SELECT group_no, board_sq, LPAD('→', (LEVEL-1)*4, '1') || board_title board_title, userid, board_date, board_yn
+		             FROM board
+		             WHERE gubun_sq = #{gubun_sq}
+		             START WITH board_p_sq IS NULL
+		             CONNECT BY PRIOR board_sq = board_p_sq
+		             ORDER SIBLINGS BY group_no DESC, board_sq ASC) a)
+		WHERE rn between (#{page} - 1) * #{pageSize} + 1 and #{page} * #{pageSize}
+	</select>
+	
+	<select id="getBoardTotalCnt" resultType="int">
+		SELECT COUNT(*)
+		FROM board
+		WHERE gubun_sq = #{gubun_sq}
+	</select>
+	
+	<select id="getBoard" parameterType="int" resultType="BoardVo">
+		SELECT *
+		FROM board
+		WHERE board_sq = #{board_sq}
+	</select>
+	
+	<select id="getAtchFileList" parameterType="int" resultType="AtchFileVo">
+		SELECT *
+		FROM attachment
+		WHERE board_sq = #{board_sq}
+	</select>
+	
+	<select id="getReplyList" parameterType="int" resultType="ReplyVo">
+		SELECT *
+		FROM reply
+		WHERE board_sq = #{board_sq}
+		ORDER BY reply_sq
+	</select>
+	
+	
+	<insert id="insertReply" parameterType="ReplyVo">
+		INSERT INTO reply
+		VALUES( reply_seq.nextval, #{reply_content}, SYSDATE, 'y', #{board_sq}, #{userid})
+	</insert>
+	
+	<update id="deleteReply" parameterType="int">
+		UPDATE reply SET reply_yn = 'n'
+		WHERE reply_sq = #{reply_sq}
+	</update>
+	
+	<update id="deleteBoard" parameterType="int">
+		UPDATE board SET board_yn = 'n'
+		WHERE board_sq = #{board_sq}
+	</update>
+	
 
 </mapper>

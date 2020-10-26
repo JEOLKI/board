@@ -7,6 +7,10 @@
 	<typeAliases>
 		<typeAlias type="kr.or.ddit.member.model.MemberVo" alias="MemberVo"/>
 		<typeAlias type="kr.or.ddit.board.model.BoardGubunVo" alias="BoardGubunVo"/>
+		<typeAlias type="kr.or.ddit.board.model.BoardVo" alias="BoardVo"/>
+		<typeAlias type="kr.or.ddit.common.model.PageVo" alias="PageVo"/>
+		<typeAlias type="kr.or.ddit.board.model.AtchFileVo" alias="AtchFileVo"/>
+		<typeAlias type="kr.or.ddit.board.model.ReplyVo" alias="ReplyVo"/>
 	</typeAliases>
 
   <environments default="development">

@@ -7,7 +7,7 @@
 	
 	<c:forEach items="${boardGubunList }" var="boardGubun">
 		<c:if test="${boardGubun.gubun_yn == 'y' }">
-			<li class="active"><a href="#">${boardGubun.gubun_nm }</a></li>
+			<li class="active"><a href="/boardList?gubun_sq=${boardGubun.gubun_sq }&gubun_nm=${boardGubun.gubun_nm }">${boardGubun.gubun_nm }</a></li>
 		</c:if>
 	</c:forEach>
 	
