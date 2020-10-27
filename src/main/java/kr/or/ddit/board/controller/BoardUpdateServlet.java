@@ -24,53 +24,52 @@ import kr.or.ddit.board.service.BoardService;
 import kr.or.ddit.board.service.BoardServiceI;
 import kr.or.ddit.fileUpload.FileUploadUtil;
 
-
-@WebServlet("/boardRegist")
+@WebServlet("/boardUpdate")
 @MultipartConfig
-public class BoardRegistServlet extends HttpServlet {
+public class BoardUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private static final Logger logger = LoggerFactory.getLogger(BoardRegistServlet.class);
-    
-	private BoardServiceI boardService;
+	private static final Logger logger = LoggerFactory.getLogger(BoardUpdateServlet.class);
 	
-	private int gubun_sq;
-	private String userid;
+	private BoardServiceI boardService;
 	private BoardVo boardVo;
-	private int group_no;
-	private int board_p_sq;
+	private List<AtchFileVo> atchFileList;
 	
 	@Override
 	public void init() throws ServletException {
 		boardService = new BoardService();
 	}
-	
+       
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		gubun_sq = Integer.parseInt(request.getParameter("gubun_sq"));
-		userid = request.getParameter("userid");
-		group_no = request.getParameter("group_no") == null? 0 : Integer.parseInt(request.getParameter("group_no")); 
-		board_p_sq = request.getParameter("board_sq") == null? 0 : Integer.parseInt(request.getParameter("board_sq")); 
+		int board_sq = Integer.parseInt(request.getParameter("board_sq"));
+		Map<String, Object> map = boardService.getBoard(board_sq);
+		boardVo = (BoardVo) map.get("boardVo");
+		atchFileList = (List<AtchFileVo>) map.get("atchFileList");
 		
-		request.getRequestDispatcher("/board/boardRegister.jsp").forward(request, response);
+		request.setAttribute("boardVo", boardVo);
+		request.setAttribute("atchFileList", atchFileList);
 		
+		request.getRequestDispatcher("/board/boardUpdate.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		
 		String board_title = request.getParameter("board_title");
 		String editordata = request.getParameter("editordata");
 		
 		logger.debug("editordata : {}", editordata);
 		
-		if(group_no == 0) {
-			boardVo = new BoardVo(board_title, editordata, userid, gubun_sq);
-		}else {
-			boardVo = new BoardVo(board_title, editordata, userid, board_p_sq, gubun_sq, group_no);
-		}
+		boardVo.setBoard_title(board_title);
+		boardVo.setBoard_content(editordata);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("boardVo", boardVo);
+		
+		String[] deleteAtchSq = request.getParameterValues("deletefile") == null? null : request.getParameterValues("deletefile");
+		
+		map.put("deleteAtchSq", deleteAtchSq);
 		
 		List<Part> fileList = new ArrayList<Part>();
 		fileList.add(request.getPart("file1"));
@@ -83,9 +82,9 @@ public class BoardRegistServlet extends HttpServlet {
 		List<AtchFileVo> atchFileList = new ArrayList<AtchFileVo>();
 		
 		for (Part file : fileList) {
-			
 			if(file != null) {
 				if(file.getSize() > 0) {
+					
 					String fileName = FileUploadUtil.getFilename(file.getHeader("Content-Disposition"));
 					String filePath = "D:\\attachment\\" + UUID.randomUUID().toString() +"."+ FileUploadUtil.getExtension(fileName);
 					atchFileVo = new AtchFileVo( filePath , fileName);
@@ -93,16 +92,19 @@ public class BoardRegistServlet extends HttpServlet {
 					file.write(filePath);
 				}
 			}
+			
 		}
 		
 		logger.debug("atchFileList : {}", atchFileList);
 		
 		map.put("atchFileList", atchFileList);
 		
-		int boardCurSq = boardService.insertBoard(map);
+		int boardCurSq = boardService.updateBoard(map);
 		
 		response.sendRedirect("/board?board_sq="+boardCurSq);
-		 
+		
+		
+		
 	}
 
 }

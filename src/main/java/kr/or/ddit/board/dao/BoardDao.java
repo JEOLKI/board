@@ -10,6 +10,7 @@ import kr.or.ddit.board.model.BoardVo;
 import kr.or.ddit.board.model.ReplyVo;
 import kr.or.ddit.common.model.PageVo;
 import kr.or.ddit.db.MybatisUtil;
+import kr.or.ddit.member.model.MemberVo;
 
 public class BoardDao implements BoardDaoI {
 
@@ -62,21 +63,7 @@ public class BoardDao implements BoardDaoI {
 		return deleteCnt;
 	}
 
-	@Override
-	public int updateBoard(BoardVo board) {
-		SqlSession sqlSession = MybatisUtil.getSqlSession();
-		int updateCnt = 0;
-		try {
-			updateCnt = sqlSession.update("board.updateBoard", board);
-		} catch (Exception e) { }
-		
-		if (updateCnt == 1) sqlSession.commit();
-		else sqlSession.rollback();
-		
-		sqlSession.close();
-		
-		return updateCnt;
-	}
+	
 
 	@Override
 	public int deleteBoardForTest(String board_title) {
@@ -93,5 +80,55 @@ public class BoardDao implements BoardDaoI {
 		
 		return deleteCnt;
 	}
+
+	@Override
+	public int insertBoard(SqlSession sqlSession, BoardVo boardVo) {
+		sqlSession.insert("board.insertBoard", boardVo);
+		return boardVo.getBoard_sq();
+	}
+
+	@Override
+	public int insertAtchFile(SqlSession sqlSession, AtchFileVo atchfileVo) {
+		return sqlSession.insert("board.insertAtchFile", atchfileVo);
+	}
+
+	@Override
+	public int insertBoardChild(SqlSession sqlSession, BoardVo boardVo) {
+		sqlSession.insert("board.insertBoardChild", boardVo);
+		return boardVo.getBoard_sq();
+	}
+
+	@Override
+	public AtchFileVo getAtchFile(int atch_sq) {
+		SqlSession sqlSession = MybatisUtil.getSqlSession();
+
+		AtchFileVo atchFileVo = sqlSession.selectOne("board.getAtchFile", atch_sq);
+
+		sqlSession.close();
+
+		return atchFileVo;
+	}
+
+	@Override
+	public int deleteAtchFile(int atch_sq) {
+		SqlSession sqlSession = MybatisUtil.getSqlSession();
+		int deleteCnt = 0;
+		try {
+			deleteCnt = sqlSession.delete("board.deleteAtchFile", atch_sq);
+		} catch (Exception e) { }
+		
+		if (deleteCnt == 1) sqlSession.commit();
+		else sqlSession.rollback();
+		
+		sqlSession.close();
+		
+		return deleteCnt;
+	}
+	
+	@Override
+	public int updateBoard(SqlSession sqlSession, BoardVo boardVo) {
+		return sqlSession.update("board.updateBoard", boardVo);
+	}
+
 
 }

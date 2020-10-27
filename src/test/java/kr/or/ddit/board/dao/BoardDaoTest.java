@@ -2,6 +2,7 @@ package kr.or.ddit.board.dao;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -36,11 +37,9 @@ public class BoardDaoTest {
 	
 	@After
 	public void reset() {
-		sqlSession.close();
 		String board_title = "test";
 		boardDao.deleteBoardForTest(board_title);
-		boardVo.setBoard_yn("y");
-		boardDao.updateBoard(boardVo);
+		sqlSession.close();
 	}
 	
 	@Test
@@ -61,13 +60,13 @@ public class BoardDaoTest {
 	public void getBoardPageListTest() {
 		
 		/***Given***/
-		PageVo pageVo = new PageVo(1, 1, 5);
+		PageVo pageVo = new PageVo(1, 1, 10);
 		
 		/***When***/
 		List<BoardVo> boardList = boardDao.getBoardPageList(sqlSession, pageVo);
 		
 		/***Then***/
-		assertEquals(5, boardList.size());
+		assertEquals(10, boardList.size());
 		
 	}
 	
@@ -81,7 +80,7 @@ public class BoardDaoTest {
 		int totalCnt= boardDao.getBoardTotalCnt(sqlSession, gubun_sq);
 		
 		/***Then***/
-		assertEquals(5, totalCnt);
+		assertEquals(10, totalCnt);
 		
 	}
 
@@ -140,6 +139,25 @@ public class BoardDaoTest {
 		assertEquals(1, deleteCnt);
 		
 	}
+	
+	@Test
+	public void insertBoardTest() {
+		
+		/***Given***/
+		boardVo = new BoardVo("test", "test", "brown", 1);
+
+		/***When***/
+		int board_sq = boardDao.insertBoard(sqlSession, boardVo);
+		int Cnt = 0;
+		if(board_sq > 1) {
+			Cnt=1;
+		}
+		
+		/***Then***/
+		assertEquals(1, Cnt);
+		
+	}
+	
 	
 	
 }

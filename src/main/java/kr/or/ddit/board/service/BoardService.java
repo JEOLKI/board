@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import kr.or.ddit.board.dao.BoardDao;
 import kr.or.ddit.board.dao.BoardDaoI;
+import kr.or.ddit.board.model.AtchFileVo;
 import kr.or.ddit.board.model.BoardVo;
 import kr.or.ddit.common.model.PageVo;
 import kr.or.ddit.db.MybatisUtil;
@@ -74,6 +75,81 @@ public class BoardService implements BoardServiceI {
 	@Override
 	public int deleteBoard(int board_sq) {
 		return boardDao.deleteBoard(board_sq);
+	}
+
+	@Override
+	public int insertBoard(Map<String, Object> map) {
+		SqlSession sqlSession = MybatisUtil.getSqlSession();
+		
+		int boardCurSq = 0;
+		BoardVo boardVo = (BoardVo) map.get("boardVo");
+		if ( boardVo.getBoard_p_sq() == 0) {
+			boardCurSq = boardDao.insertBoard(sqlSession,(BoardVo)map.get("boardVo"));
+		} else {
+			boardCurSq = boardDao.insertBoardChild(sqlSession,(BoardVo)map.get("boardVo"));
+		}
+		
+		List<AtchFileVo> atchFileList = (List<AtchFileVo>) map.get("atchFileList");
+		
+		if(atchFileList == null) return boardCurSq;
+		
+		
+		int insertCnt = 0;
+		for(AtchFileVo atchfileVo : atchFileList) {
+			atchfileVo.setBoard_sq(boardCurSq);
+			insertCnt += boardDao.insertAtchFile(sqlSession, atchfileVo);
+		}
+		
+		if( insertCnt == atchFileList.size() ) sqlSession.commit();
+		else sqlSession.rollback();
+		
+		sqlSession.close();
+		
+		return boardCurSq;
+	}
+
+	@Override
+	public AtchFileVo getAtchFile(int atch_sq) {
+		return boardDao.getAtchFile(atch_sq);
+	}
+
+	@Override
+	public int deleteAtchFile(int atch_sq) {
+		return boardDao.deleteAtchFile(atch_sq);
+	}
+
+	@Override
+	public int updateBoard(Map<String, Object> map) {
+		
+		SqlSession sqlSession = MybatisUtil.getSqlSession();
+		
+		BoardVo boardVo = (BoardVo) map.get("boardVo");
+		
+		int updateCnt = boardDao.updateBoard(sqlSession,boardVo);
+		
+		String[] deleteAtchSq = (String[]) map.get("deleteAtchSq");
+		
+		if(deleteAtchSq != null) {
+			
+			for(String atch_sq : deleteAtchSq) {
+				boardDao.deleteAtchFile(Integer.parseInt(atch_sq));
+			}
+		}
+		
+		List<AtchFileVo> atchFileList = (List<AtchFileVo>) map.get("atchFileList");
+		
+		int insertCnt = 0;
+		for(AtchFileVo atchfileVo : atchFileList) {
+			atchfileVo.setBoard_sq(boardVo.getBoard_sq());
+			insertCnt += boardDao.insertAtchFile(sqlSession, atchfileVo);
+		}
+		
+		if( updateCnt == 1 || insertCnt == atchFileList.size() ) sqlSession.commit();
+		else sqlSession.rollback();
+		
+		sqlSession.close();
+		
+		return boardVo.getBoard_sq();
 	}
 
 }

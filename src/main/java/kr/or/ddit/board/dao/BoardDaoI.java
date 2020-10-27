@@ -26,7 +26,18 @@ public interface BoardDaoI {
 	
 	int deleteBoard(int board_sq);
 	
-	int updateBoard(BoardVo board);
 	
 	int deleteBoardForTest(String board_title);
+
+	int insertBoard(SqlSession sqlSession, BoardVo boardVo);
+
+	int insertAtchFile(SqlSession sqlSession, AtchFileVo atchfileVo);
+
+	int insertBoardChild(SqlSession sqlSession, BoardVo boardVo);
+
+	AtchFileVo getAtchFile(int atch_sq);
+
+	int deleteAtchFile(int atch_sq);
+
+	int updateBoard(SqlSession sqlSession, BoardVo boardVo);
 }

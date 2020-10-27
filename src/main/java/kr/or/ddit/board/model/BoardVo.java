@@ -19,6 +19,15 @@ public class BoardVo {
 
 	}
 	
+	public BoardVo(String board_title, String board_content, String userid, int gubun_sq) {
+		super();
+		this.board_title = board_title;
+		this.board_content = board_content;
+		this.userid = userid;
+		this.gubun_sq = gubun_sq;
+	}
+
+
 
 	public BoardVo(String board_title, String board_content, String userid, int board_p_sq, int gubun_sq, int group_no) {
 		this.board_title = board_title;

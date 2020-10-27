@@ -7,6 +7,16 @@ public class AtchFileVo {
 	private String atch_filename;
 	private int board_sq;
 
+	public AtchFileVo() {
+
+	}
+
+	public AtchFileVo(String atch_filepath, String atch_filename) {
+		super();
+		this.atch_filepath = atch_filepath;
+		this.atch_filename = atch_filename;
+	}
+
 	public int getAtch_sq() {
 		return atch_sq;
 	}

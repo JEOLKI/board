@@ -58,6 +58,7 @@
 		SELECT *
 		FROM attachment
 		WHERE board_sq = #{board_sq}
+		ORDER BY atch_sq
 	</select>
 	
 	<select id="getReplyList" parameterType="int" resultType="ReplyVo">
@@ -83,15 +84,46 @@
 		WHERE board_sq = #{board_sq}
 	</update>
 	
-	<update id="updateBoard" parameterType="BoardVo">
-		UPDATE board SET board_yn = #{board_yn}
-		WHERE board_sq = #{board_sq}
-	</update>
-	
-	<delete id="deleteBoardForTest" parameterType="board_title">
+	<delete id="deleteBoardForTest" parameterType="String">
 		DELETE board
 		WHERE board_title = #{board_title}
 	</delete>
 	
+	<insert id="insertBoard" parameterType="BoardVo">
+		INSERT INTO board
+		VALUES( board_seq.nextval, #{board_title}, SYSDATE, 'y', #{userid}, null, #{gubun_sq}, board_seq.currval, #{board_content})  
+		<selectKey keyProperty="board_sq" resultType="int" order="AFTER">
+			SELECT board_seq.currval FROM dual
+		</selectKey>
+	</insert>
+	
+	<insert id="insertBoardChild" parameterType="BoardVo">
+		INSERT INTO board
+		VALUES( board_seq.nextval, #{board_title}, SYSDATE, 'y', #{userid}, #{board_p_sq}, #{gubun_sq}, #{group_no}, #{board_content})  
+		<selectKey keyProperty="board_sq" resultType="int" order="AFTER">
+			SELECT board_seq.currval FROM dual
+		</selectKey>
+	</insert>
+	
+	<insert id="insertAtchFile" parameterType="AtchFileVo">
+		INSERT INTO attachment
+		VALUES( atch_seq.nextval, #{atch_filepath}, #{atch_filename}, #{board_sq})  
+	</insert>
+	
+	<select id="getAtchFile" parameterType="int" resultType="AtchFileVo">
+		SELECT *
+		FROM attachment
+		WHERE atch_sq = #{atch_sq}
+	</select>
+	
+	<delete id="deleteAtchFile" parameterType="int">
+		DELETE attachment
+		WHERE atch_sq = #{atch_sq}
+	</delete>
+
+	<update id="updateBoard" parameterType="BoardVo">
+		UPDATE board SET board_title = #{board_title}, board_content = #{board_content}, board_yn = #{board_yn}
+		WHERE board_sq = #{board_sq}
+	</update>
 
 </mapper>

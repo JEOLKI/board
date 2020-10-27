@@ -29,5 +29,10 @@ public class FileUploadUtil {
 		
 	}
 	
+	public static String getFilePath(String file) {
+		String[] contents = file.split("; ");
+		return contents[0];
+	}
+	
 	
 }

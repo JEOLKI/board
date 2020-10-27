@@ -47,7 +47,7 @@ public class BoardListServlet extends HttpServlet {
 				
 		// pageSize
 		String pageSize_str = request.getParameter("pageSize");
-		int pageSize = pageSize_str == null ? 5 : Integer.parseInt(pageSize_str);
+		int pageSize = pageSize_str == null ? 10 : Integer.parseInt(pageSize_str);
 		request.setAttribute("pageSize", pageSize);
 				
 		// pageVo : page, pageSize
