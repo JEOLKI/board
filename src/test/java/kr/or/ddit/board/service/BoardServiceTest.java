@@ -85,19 +85,6 @@ public class BoardServiceTest {
 		
 	}
 	
-	@Test
-	public void ss() {
-		String a = "<p>글내용1<img src=\"dd\" data-filename=\"브루니.jpg\" style=\"width: 512px;\">글내용2<br><img src=\"dd\" data-filename=\"브루니.jpg\" style=\"width: 512px;\"></p>";
-		String[] b = a.split("<img src=");
-		
-		for(int i=0 ; i < b.length ; i++) {
-			logger.debug("{}", b[i]);
-		}
-		
-		
-		
-	}
-	
 	
 	
 }
