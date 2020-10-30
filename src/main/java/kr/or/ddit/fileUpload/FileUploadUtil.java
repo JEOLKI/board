@@ -28,11 +28,6 @@ public class FileUploadUtil {
 		else return filename.split("\\.")[1];
 		
 	}
-	
-	public static String getFilePath(String file) {
-		String[] contents = file.split("; ");
-		return contents[0];
-	}
-	
+		
 	
 }
